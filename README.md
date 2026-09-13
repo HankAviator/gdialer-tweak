@@ -6,6 +6,7 @@ An LSPosed module for Google Phone with two independently configurable features:
 - **Enable call recording** — enables Google Phone's own built-in call-recording eligibility path. This does not remove or silence Google's recording disclosure.
 
 The companion app also provides a carrier-free **test incoming call** through an Android Telecom test calling account.
+Its settings screen uses Material Design 3, Android dynamic color, and edge-to-edge system-bar insets.
 
 ## Tested target
 

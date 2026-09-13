@@ -10,8 +10,8 @@ android {
         applicationId = "io.github.hankaviator.gdialertweak"
         minSdk = 30
         targetSdk = 35
-        versionCode = 9
-        versionName = "0.9.0"
+        versionCode = 10
+        versionName = "0.10.0"
     }
 
     buildTypes {
@@ -27,5 +27,6 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.material:material:1.14.0")
     compileOnly("de.robv.android.xposed:api:82")
 }

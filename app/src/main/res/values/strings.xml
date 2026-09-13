@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GDialer Tweak</string>
+    <string name="enable_test_account">Enable test calling account</string>
+    <string name="simulate_incoming_call">Simulate incoming call</string>
+</resources>

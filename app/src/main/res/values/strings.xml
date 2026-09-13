@@ -1,5 +1,17 @@
 <resources>
     <string name="app_name">GDialer Tweak</string>
+    <string name="features">Features</string>
+    <string name="keep_current_app_title">Keep current app after answering</string>
+    <string name="keep_current_app_summary">Answer from the notification without replacing the app you are using. Lock-screen and launcher answers still show Google Phone.</string>
+    <string name="enable_recording_title">Enable call recording</string>
+    <string name="enable_recording_summary">Unlock Google Phone’s built-in recording controls. Google’s audible disclosure and local laws still apply.</string>
+    <string name="testing">Testing</string>
+    <string name="test_incoming_call">Test incoming call</string>
+    <string name="test_incoming_call_summary">Creates a local Telecom call without contacting a carrier. Enable the test calling account once before simulating a call.</string>
     <string name="enable_test_account">Enable test calling account</string>
     <string name="simulate_incoming_call">Simulate incoming call</string>
+    <string name="test_call_requested">Test call requested</string>
+    <string name="enable_test_account_first">Enable the test calling account first</string>
+    <string name="open_through_lsposed">Open this screen through LSPosed to activate shared preferences</string>
+    <string name="scope_note">LSPosed scopes: Google Phone and Xiaomi InCallUI. Reboot after changing module scope.</string>
 </resources>

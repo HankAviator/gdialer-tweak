@@ -51,7 +51,8 @@ public final class MainActivity extends Activity {
         TextView title = text("GDialer Tweak", 28, Color.rgb(28, 31, 38));
         title.setTypeface(title.getTypeface(), Typeface.BOLD);
         page.addView(title);
-        TextView subtitle = text("Hooks for Google Phone", 15, Color.rgb(88, 94, 105));
+        TextView subtitle = text("Hooks for Google Phone and HyperOS InCallUI", 15,
+                Color.rgb(88, 94, 105));
         subtitle.setPadding(0, dp(4), 0, dp(24));
         page.addView(subtitle);
 
@@ -92,7 +93,7 @@ public final class MainActivity extends Activity {
         buttonParams.topMargin = dp(8);
         page.addView(simulate, buttonParams);
 
-        TextView note = text("After changing a switch, force-stop Google Phone or reboot so its process reloads the hooks and preferences.", 13, Color.rgb(88, 94, 105));
+        TextView note = text("In LSPosed, enable both recommended scopes: Google Phone and Xiaomi InCallUI. After changing a switch or scope, reboot (or force-stop both scoped apps) so their processes reload the hooks and preferences.", 13, Color.rgb(88, 94, 105));
         note.setGravity(Gravity.CENTER_HORIZONTAL);
         note.setPadding(dp(8), dp(28), dp(8), 0);
         page.addView(note);

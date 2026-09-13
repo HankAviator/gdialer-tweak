@@ -2,7 +2,7 @@
 
 An LSPosed module for Google Phone with two independently configurable features:
 
-- **Keep the current app after answering** — when an incoming call is answered from its notification, Google Phone's in-call activity is moved behind the app you were using. Google Phone still opens when the answer happens on the lock screen or while the launcher is foreground.
+- **Keep the current app after answering** — routes the notification's Answer action through Google Phone's receiver, then blocks its automatic in-call activity launch. Google Phone still opens when answering on the lock screen or launcher, and when you intentionally tap the ongoing-call notification.
 - **Enable call recording** — enables Google Phone's own built-in call-recording eligibility path. This does not remove or silence Google's recording disclosure.
 
 The companion app also provides a carrier-free **test incoming call** through an Android Telecom test calling account.
@@ -14,9 +14,9 @@ The companion app also provides a carrier-free **test incoming call** through an
 - Google Phone `236.0.969488611-pixel` (`versionCode 20031818`)
 - LSPosed
 
-The in-call behavior uses stable Google Phone component names. The recording implementation additionally hooks R8-obfuscated eligibility classes verified for the version above. A Google Phone update can change those names; check the LSPosed log for `GDialerTweak` messages after updating.
+The in-call behavior and recording implementation hook R8-obfuscated Google Phone classes verified for the version above. A Google Phone update can change those names; check the LSPosed log for `GDialerTweak` messages after updating.
 
-Xiaomi's stock `com.android.incallui` is intentionally not hooked. The recommended LSPosed scope is **Google Phone (`com.google.android.dialer`) only**.
+The recommended LSPosed scope includes both **Google Phone (`com.google.android.dialer`)** and **Xiaomi InCallUI (`com.android.incallui`)**. HyperOS can bind and launch its stock in-call UI even while Google Phone holds the default dialer role; the second scope lets the module block that Xiaomi activity launch. A lifecycle hook returns it to the background as a fallback.
 
 ## Install and configure
 
@@ -27,9 +27,9 @@ Xiaomi's stock `com.android.incallui` is intentionally not hooked. The recommend
    adb install -r .\app\build\outputs\apk\debug\app-debug.apk
    ```
 
-2. Enable GDialer Tweak in LSPosed and select Google Phone as its scope.
+2. Enable GDialer Tweak in LSPosed and select both recommended scopes: Google Phone and Xiaomi InCallUI.
 3. Open GDialer Tweak and choose each feature independently.
-4. Open the configuration screen once from LSPosed, then force-stop Google Phone or reboot after enabling the module or changing its LSPosed scope.
+4. Open the configuration screen once from LSPosed, then reboot after enabling the module or changing its LSPosed scope. For development, force-stopping both scoped packages is sufficient.
 
 The installed debug APK is signed with the standard Android debug key.
 
@@ -43,7 +43,10 @@ The test call is created locally with `ConnectionService` and does not contact a
 
 ## Behavior and limitations
 
-- Only notification answer actions are marked for backgrounding. Full-screen answer UI actions do not take this path.
+- Notification Answer uses Google Phone's receiver-only path and does not create `InCallActivity`. Automatic post-answer launches are blocked as a fallback.
+- Tapping the ongoing-call notification is explicitly marked as an intentional UI launch and clears suppression.
+- If HyperOS subsequently tries to launch its own `com.android.incallui/.InCallActivity`, that launch is blocked while Google Phone is the default dialer.
+- Full-screen lock-screen and launcher answer flows remain visible.
 - If Android cannot determine the foreground task, the module fails open and leaves Google Phone visible.
 - Call recording availability still depends on Google Phone containing the recorder implementation and on the device audio path working. The module only changes eligibility decisions.
 - Recording calls may be regulated or prohibited depending on jurisdiction. The user is responsible for consent and compliance.
@@ -53,6 +56,11 @@ The test call is created locally with `ConnectionService` and does not contact a
 Filter the LSPosed log for `GDialerTweak`. On the tested Google Phone build, successful startup includes:
 
 ```text
+receiver-only notification answer hook installed
+notification content marker hook installed
+internal InCallActivity launch blocker installed
+Xiaomi InCallActivity suppressor installed
+Xiaomi InCallActivity launch blocker installed
 recording gate hooked: kxt.a
 recording gate hooked: kwz.a
 loaded in Google Phone
